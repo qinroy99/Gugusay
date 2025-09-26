@@ -1,0 +1,9 @@
+
+> twitter-app@1.0.0 dev
+> node app.js
+
+服务器运行在 http://localhost:3000
+Connected to the SQLite database.
+Reading progress table ready.
+Search history table ready.
+^C

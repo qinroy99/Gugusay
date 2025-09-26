@@ -1,0 +1,30 @@
+{
+  "productName": "TwitterApp",
+  "version": "1.0.0",
+  "identifier": "com.twitter.app",
+  "build": {
+    "frontendDist": "./",
+    "devUrl": "http://localhost:3000"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Twitter App",
+        "width": 1200,
+        "height": 800,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/icon.ico"
+    ]
+  }
+}

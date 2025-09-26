@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姑射山人2011</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="Twitter.ico">
+</head>
+<body>
+    <!-- 年月导航树 -->
+    <div id="year-month-tree" class="year-month-tree collapsed">
+        <div class="tree-header">
+            <h3>年月导航</h3>
+            <button id="toggle-tree" class="toggle-btn">▼</button>
+        </div>
+        <div id="tree-content" class="tree-content">
+            <ul id="year-month-list" class="year-month-list">
+                <!-- 年月数据将在这里显示 -->
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <img src="sba.jpg" alt="用户头像" class="user-avatar">
+                <div class="user-info">
+                    <h1>姑射山人2011</h1>
+                </div>
+                <!-- 字体大小调节按钮 -->
+                <div class="font-controls">
+                    <div class="font-size-controls">
+                        <button class="font-size-btn" data-size="small">小</button>
+                        <button class="font-size-btn" data-size="medium">中</button>
+                        <button class="font-size-btn" data-size="large">大</button>
+                    </div>
+                    <!-- 配色方案选择 -->
+                    <div class="color-theme-controls">
+                        <button class="color-theme-btn" data-theme="white">白</button>
+                        <button class="color-theme-btn" data-theme="green">绿</button>
+                        <button class="color-theme-btn" data-theme="black">黑</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main id="main-content">
+            <!-- 主页内容 -->
+            <section id="home-section">
+                <div class="search-bar">
+                    <div class="search-container">
+                        <input type="text" id="search-input" placeholder="" autocomplete="off" aria-label="搜索">
+                        <!-- 搜索历史记录下拉列表 -->
+                        <div id="search-history" class="search-history hidden">
+                            <ul id="search-history-list" class="search-history-list">
+                                <!-- 搜索历史记录将在这里显示 -->
+                            </ul>
+                        </div>
+                    </div>
+                    <button id="search-btn">搜索</button>
+                    <button id="clear-btn">清除</button>
+                    <button id="stats-btn">统计</button>
+                </div>
+
+                <div class="tweets-container" id="tweets-container">
+                    <!-- 推文将在这里显示 -->
+                </div>
+
+                <div class="pagination">
+                    <span id="page-info"></span>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 统计弹窗 -->
+    <div id="stats-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>数据统计</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="stats-container">
+                    <table id="combined-stats">
+                        <thead>
+                            <tr>
+                                <th>年份</th>
+                                <th>渠道</th>
+                                <th>条数</th>
+                                <th>字数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- 数据将在这里显示 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑弹窗 -->
+    <div id="edit-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>编辑推文</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="edit-form-container">
+                    <form id="edit-tweet-form">
+                        <input type="hidden" id="edit-id">
+                        <input type="hidden" id="edit-media-type" value="text">
+                        <input type="hidden" id="edit-media-path">
+                        <div class="form-group">
+                            <label for="edit-datetime">日期时间:</label>
+                            <input type="text" id="edit-datetime" placeholder="YYYY-MM-DD HH:MM">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-content">内容:</label>
+                            <textarea id="edit-content" placeholder="内容"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-channel">渠道:</label>
+                            <input type="text" id="edit-channel" placeholder="渠道">
+                        </div>
+                        <div class="form-group" id="media-selection">
+                            <label for="edit-media-file">选择图片:</label>
+                            <input type="file" id="edit-media-file" accept="image/*" multiple>
+                            <div id="current-media-preview"></div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="add-media-btn">添加图片</button>
+                            <button type="button" id="save-edit-btn">保存</button>
+                            <button type="button" id="cancel-edit-btn">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 浮动翻页按钮 -->
+    <div class="floating-buttons">
+        <button id="float-prev-btn" class="float-btn">上一页</button>
+        <button id="float-next-btn" class="float-btn">下一页</button>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

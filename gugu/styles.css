@@ -1,0 +1,1245 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #ffffff;
+    color: #0f1419;
+    line-height: 1.6;
+}
+
+/* 白色主题样式（默认） */
+body.theme-white {
+    background-color: #ffffff;
+    color: #0f1419;
+}
+
+/* 绿色主题样式 */
+body.theme-green {
+    background-color: #e8f5e9;
+    color: #1b5e20;
+}
+
+/* 黑色主题样式 */
+body.theme-black {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+}
+
+header {
+    background: #1da1f2;
+    padding: 15px;
+    border-bottom: 1px solid #1da1f2;
+    margin-bottom: 0;
+    text-align: left;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 2px solid white;
+}
+
+.user-info h1 {
+    color: white;
+    margin-bottom: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* 字体和配色控制区域 */
+.font-controls {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* 字体大小调节按钮样式 */
+.font-size-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.font-size-btn {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.font-size-btn:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.font-size-btn.active {
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 配色方案选择按钮样式 */
+.color-theme-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.color-theme-btn {
+    border: none;
+    border-radius: 15px;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+/* 白色主题按钮 */
+.color-theme-btn[data-theme="white"] {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+/* 绿色主题按钮 */
+.color-theme-btn[data-theme="green"] {
+    background-color: #4caf50;
+    color: #ffffff;
+}
+
+/* 黑色主题按钮 */
+.color-theme-btn[data-theme="black"] {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.color-theme-btn:hover {
+    opacity: 0.8;
+}
+
+.color-theme-btn.active {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(1px);
+}
+
+.search-bar {
+    background: white;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 0;
+    display: flex;
+    gap: 10px;
+}
+
+.search-container {
+    position: relative;
+    flex: 1;
+}
+
+#search-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e1e8ed;
+    border-radius: 20px;
+    font-size: 15px;
+    background-color: #f7f9fa;
+}
+
+#search-input:focus {
+    outline: none;
+    border-color: #1da1f2;
+    background-color: #fff;
+}
+
+/* 搜索历史记录样式 */
+.search-history {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e1e8ed;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.search-history.hidden {
+    display: none;
+}
+
+.search-history-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.search-history-list li {
+    padding: 10px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-history-list li:last-child {
+    border-bottom: none;
+}
+
+.search-history-list li:hover {
+    background-color: #f8f9fa;
+}
+
+.search-history-list li .keyword {
+    flex: 1;
+}
+
+.search-history-list li .delete-btn {
+    background: none;
+    border: none;
+    color: #657786;
+    cursor: pointer;
+    font-size: 16px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.search-history-list li .delete-btn:hover {
+    background-color: #ffebee;
+    color: #e02020;
+}
+
+.stats-button {
+    background-color: #1da1f2;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+.stats-button:hover {
+    background-color: #0d8bd9;
+}
+
+button {
+    background-color: #1da1f2;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 15px;
+}
+
+button:hover {
+    background-color: #0d8bd9;
+}
+
+.tweets-container {
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    margin-bottom: 0;
+}
+
+/* 不同主题下的推文容器样式 */
+body.theme-white .tweets-container {
+    background: white;
+}
+
+body.theme-green .tweets-container {
+    background: #e8f5e9;
+}
+
+body.theme-black .tweets-container {
+    background: #121212;
+}
+
+/* 不同主题下的推文样式 */
+body.theme-white .tweet {
+    background-color: #f7f9fa;
+    color: #0f1419;
+}
+
+body.theme-green .tweet {
+    background-color: #c8e6c9;
+    color: #1b5e20;
+}
+
+body.theme-black .tweet {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+.tweet {
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+    border-radius: 12px;
+    margin: 10px 15px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    transition: box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.tweet:hover {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transform: translateY(0);
+}
+
+/* 不同主题下的推文悬停效果 */
+body.theme-white .tweet:hover {
+    background-color: #fff;
+}
+
+body.theme-green .tweet:hover {
+    background-color: #a5d6a7;
+}
+
+body.theme-black .tweet:hover {
+    background-color: #2d2d2d;
+}
+
+.tweet-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3px;
+    align-items: center;
+}
+
+.tweet-header span.tweet-time {
+    font-size: 15px;
+}
+
+/* 不同主题下的时间样式 */
+body.theme-white .tweet-header span.tweet-time {
+    color: #657786;
+}
+
+body.theme-green .tweet-header span.tweet-time {
+    color: #388e3c;
+}
+
+body.theme-black .tweet-header span.tweet-time {
+    color: #b0b0b0;
+}
+
+.tweet-header span.tweet-channel {
+    font-size: 14px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+/* 不同主题下的渠道标签样式 */
+body.theme-white .tweet-header span.tweet-channel {
+    color: #fff;
+    background-color: #1da1f2;
+}
+
+body.theme-green .tweet-header span.tweet-channel {
+    color: #ffffff;
+    background-color: #388e3c;
+}
+
+body.theme-black .tweet-header span.tweet-channel {
+    color: #ffffff;
+    background-color: #424242;
+}
+
+.tweet-content {
+    margin-bottom: 0; /* 移除了默认的底部边距 */
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+/* 不同主题下的高亮样式 */
+body.theme-white .highlight {
+    background-color: rgba(29, 161, 242, 0.3);
+    font-weight: bold;
+}
+
+body.theme-green .highlight {
+    background-color: rgba(56, 142, 60, 0.3);
+    font-weight: bold;
+}
+
+body.theme-black .highlight {
+    background-color: rgba(56, 142, 60, 0.3);
+    font-weight: bold;
+}
+
+/* 隐藏元素的类 */
+.hidden {
+    display: none;
+}
+
+/* 微博和推特渠道的瀑布流布局 */
+.tweets-container.masonry-layout {
+    column-count: 2;
+    column-gap: 15px;
+    padding: 15px;
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+.tweet.masonry-item {
+    break-inside: avoid;
+    margin-bottom: 15px;
+    max-width: 500px;
+}
+
+/* 媒体选择区域默认隐藏 */
+#media-selection {
+    display: none;
+}
+
+.tweet-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.tweet-actions button {
+    background: none;
+    border: none;
+    font-size: 14px;
+    padding: 2px 6px;
+    border-radius: 5px;
+}
+
+/* 不同主题下的操作按钮样式 */
+body.theme-white .tweet-actions button {
+    color: #657786;
+}
+
+body.theme-green .tweet-actions button {
+    color: #388e3c;
+}
+
+body.theme-black .tweet-actions button {
+    color: #b0b0b0;
+}
+
+.tweet-actions button:hover {
+    background-color: rgba(29, 161, 242, 0.1);
+}
+
+/* 不同主题下的操作按钮悬停样式 */
+body.theme-white .tweet-actions button:hover {
+    color: #1da1f2;
+}
+
+body.theme-green .tweet-actions button:hover {
+    color: #1b5e20;
+}
+
+body.theme-black .tweet-actions button:hover {
+    color: #ffffff;
+    background-color: rgba(66, 66, 66, 0.3);
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: transparent;
+    padding: 15px 20px;
+    border-top: none;
+    width: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#page-info {
+    font-weight: bold;
+}
+
+/* 不同主题下的分页信息样式 */
+body.theme-white #page-info {
+    color: #657786;
+}
+
+body.theme-green #page-info {
+    color: #388e3c;
+}
+
+body.theme-black #page-info {
+    color: #b0b0b0;
+}
+
+.stats-container {
+    background: white;
+    padding: 15px;
+    max-width: 1080px;
+    margin: 0 auto;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+}
+
+.stats-container h2 {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 20px;
+}
+
+/* 不同主题下的统计容器样式 */
+body.theme-white .stats-container h2,
+body.theme-white .stats-container h3 {
+    color: #0f1419;
+}
+
+body.theme-green .stats-container h2,
+body.theme-green .stats-container h3 {
+    color: #1b5e20;
+}
+
+body.theme-black .stats-container h2,
+body.theme-black .stats-container h3 {
+    color: #e0e0e0;
+}
+
+.stats-container h3 {
+    margin: 20px 0 10px;
+    font-size: 17px;
+    padding: 0 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    font-weight: bold;
+}
+
+/* 不同主题下的表格样式 */
+body.theme-white th {
+    background-color: #f8f9fa;
+}
+
+body.theme-green th {
+    background-color: #a5d6a7;
+    color: #1b5e20;
+}
+
+body.theme-black th {
+    background-color: #424242;
+    color: #e0e0e0;
+    border-bottom: 1px solid #616161;
+}
+
+body.theme-white tbody tr:hover {
+    background-color: #f7f9fa;
+}
+
+body.theme-green tbody tr:hover {
+    background-color: #a5d6a7;
+}
+
+body.theme-black tbody tr:hover {
+    background-color: #424242;
+}
+
+body.theme-white tfoot td {
+    background-color: #f8f9fa;
+    border-top: 2px solid #ddd;
+}
+
+body.theme-green tfoot td {
+    background-color: #a5d6a7;
+    border-top: 2px solid #81c784;
+}
+
+body.theme-black tfoot td {
+    background-color: #424242;
+    border-top: 2px solid #616161;
+    color: #e0e0e0;
+}
+
+.floating-buttons {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 100;
+}
+
+.float-btn {
+    position: absolute;
+    pointer-events: auto;
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+/* 不同主题下的浮动按钮样式 */
+body.theme-white .float-btn {
+    background-color: #1da1f2;
+    color: white;
+}
+
+body.theme-green .float-btn {
+    background-color: #4caf50;
+    color: white;
+}
+
+body.theme-black .float-btn {
+    background-color: #424242;
+    color: white;
+}
+
+.float-btn:hover {
+    background-color: #0d8bd9;
+}
+
+body.theme-green .float-btn:hover {
+    background-color: #388e3c;
+}
+
+body.theme-black .float-btn:hover {
+    background-color: #616161;
+}
+
+#float-prev-btn {
+    left: 20px;
+}
+
+#float-next-btn {
+    right: 20px;
+}
+
+.edit-form {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.edit-form textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    font-family: inherit;
+    margin-bottom: 10px;
+}
+
+.edit-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-family: inherit;
+}
+
+.edit-form-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-form-buttons button {
+    flex: 1;
+}
+
+/* 统计弹窗样式 */
+.modal {
+    display: flex;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    margin: auto;
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 不同主题下的模态框样式 */
+body.theme-white .modal-content {
+    background-color: #fff;
+}
+
+body.theme-green .modal-content {
+    background-color: #e8f5e9;
+}
+
+body.theme-black .modal-content {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 不同主题下的模态框头部样式 */
+body.theme-white .modal-header {
+    border-bottom: 1px solid #eee;
+}
+
+body.theme-green .modal-header {
+    border-bottom: 1px solid #a5d6a7;
+}
+
+body.theme-black .modal-header {
+    border-bottom: 1px solid #616161;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+/* 不同主题下的模态框标题样式 */
+body.theme-white .modal-header h2 {
+    color: #0f1419;
+}
+
+body.theme-green .modal-header h2 {
+    color: #1b5e20;
+}
+
+body.theme-black .modal-header h2 {
+    color: #e0e0e0;
+}
+
+.close {
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+}
+
+/* 不同主题下的关闭按钮样式 */
+body.theme-white .close {
+    color: #aaa;
+}
+
+body.theme-green .close {
+    color: #81c784;
+}
+
+body.theme-black .close {
+    color: #bdbdbd;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+}
+
+body.theme-black .close:hover,
+body.theme-black .close:focus {
+    color: #ffffff;
+}
+
+.modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.stats-container {
+    padding: 20px;
+}
+
+.stats-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.stats-container th,
+.stats-container td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.stats-container th {
+    position: sticky;
+    top: 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    min-height: 150px;
+}
+
+/* 不同主题下的表单元素样式 */
+body.theme-white .form-group input,
+body.theme-white .form-group textarea {
+    background-color: #fff;
+    color: #000;
+}
+
+body.theme-green .form-group input,
+body.theme-green .form-group textarea {
+    background-color: #f1f8e9;
+    color: #1b5e20;
+    border: 1px solid #a5d6a7;
+}
+
+body.theme-black .form-group input,
+body.theme-black .form-group textarea {
+    background-color: #424242;
+    color: #e0e0e0;
+    border: 1px solid #616161;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.form-actions button {
+    padding: 12px 24px;
+    font-size: 16px;
+}
+
+/* 年月导航树样式 */
+.year-month-tree {
+    position: fixed;
+    top: 70px;
+    left: 20px;
+    width: 200px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 200;
+    transition: all 0.3s ease;
+}
+
+/* 不同主题下的导航树样式 */
+body.theme-white .year-month-tree {
+    background-color: #fff;
+}
+
+body.theme-green .year-month-tree {
+    background-color: #e8f5e9;
+}
+
+body.theme-black .year-month-tree {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+.year-month-tree.collapsed .tree-content {
+    display: none;
+}
+
+.tree-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    border-radius: 8px 8px 0 0;
+    font-size: 14px;
+}
+
+/* 不同主题下的导航树头部样式 */
+body.theme-white .tree-header {
+    background-color: #1da1f2;
+    color: white;
+    border-bottom: 1px solid #eee;
+}
+
+body.theme-green .tree-header {
+    background-color: #4caf50;
+    color: white;
+    border-bottom: 1px solid #a5d6a7;
+}
+
+body.theme-black .tree-header {
+    background-color: #424242;
+    color: white;
+    border-bottom: 1px solid #616161;
+}
+
+.tree-header h3 {
+    margin: 0;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.toggle-btn {
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 不同主题下的切换按钮样式 */
+body.theme-white .toggle-btn {
+    color: white;
+}
+
+body.theme-green .toggle-btn {
+    color: white;
+}
+
+body.theme-black .toggle-btn {
+    color: white;
+}
+
+.tree-content {
+    padding: 8px;
+    max-height: 400px;
+    overflow-y: auto;
+    font-size: 13px;
+}
+
+.year-month-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.year-month-list li {
+    padding: 3px 0;
+}
+
+.year-item {
+    font-weight: bold;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.year-item:hover {
+    background-color: rgba(29, 161, 242, 0.1);
+}
+
+/* 不同主题下的年份项悬停样式 */
+body.theme-white .year-item:hover {
+    background-color: rgba(29, 161, 242, 0.1);
+}
+
+body.theme-green .year-item:hover {
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+body.theme-black .year-item:hover {
+    background-color: rgba(66, 66, 66, 0.3);
+}
+
+.year-item::before {
+    content: "▶ ";
+    transition: transform 0.2s;
+    margin-right: 5px;
+}
+
+.year-item.expanded::before {
+    content: "▼ ";
+}
+
+.month-list {
+    list-style: none;
+    padding: 0 0 0 15px;
+    margin: 3px 0 0 0;
+    display: none;
+}
+
+.month-list.expanded {
+    display: block;
+}
+
+.month-item {
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    margin: 1px 0;
+}
+
+.month-item:hover {
+    background-color: rgba(29, 161, 242, 0.1);
+}
+
+/* 不同主题下的月份项悬停样式 */
+body.theme-white .month-item:hover {
+    background-color: rgba(29, 161, 242, 0.1);
+}
+
+body.theme-green .month-item:hover {
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+body.theme-black .month-item:hover {
+    background-color: rgba(66, 66, 66, 0.3);
+}
+
+/* 字体大小类 */
+.tweet-content.font-small {
+    font-size: 12px;
+}
+
+.tweet-content.font-medium {
+    font-size: 18px;
+}
+
+.tweet-content.font-large {
+    font-size: 24px;
+}
+
+/* 不同主题下的搜索栏样式 */
+body.theme-white .search-bar {
+    background: white;
+}
+
+body.theme-green .search-bar {
+    background: #e8f5e9;
+}
+
+body.theme-black .search-bar {
+    background: #333;
+}
+
+/* 不同主题下的搜索输入框样式 */
+body.theme-white #search-input {
+    background-color: #f7f9fa;
+    color: #000;
+    border: 1px solid #e1e8ed;
+}
+
+body.theme-green #search-input {
+    background-color: #c8e6c9;
+    color: #1b5e20;
+    border: 1px solid #a5d6a7;
+}
+
+body.theme-black #search-input {
+    background-color: #424242;
+    color: #e0e0e0;
+    border: 1px solid #616161;
+}
+
+#search-input:focus {
+    outline: none;
+}
+
+body.theme-white #search-input:focus {
+    border-color: #1da1f2;
+    background-color: #fff;
+}
+
+body.theme-green #search-input:focus {
+    border-color: #4caf50;
+    background-color: #f1f8e9;
+}
+
+body.theme-black #search-input:focus {
+    border-color: #9e9e9e;
+    background-color: #424242;
+}
+
+/* 不同主题下的搜索历史记录样式 */
+body.theme-white .search-history {
+    background: white;
+    border: 1px solid #e1e8ed;
+}
+
+body.theme-green .search-history {
+    background: #e8f5e9;
+    border: 1px solid #a5d6a7;
+}
+
+body.theme-black .search-history {
+    background: #424242;
+    border: 1px solid #616161;
+    color: #e0e0e0;
+}
+
+body.theme-white .search-history-list li {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+body.theme-green .search-history-list li {
+    border-bottom: 1px solid #c8e6c9;
+}
+
+body.theme-black .search-history-list li {
+    border-bottom: 1px solid #616161;
+}
+
+body.theme-white .search-history-list li:hover {
+    background-color: #f8f9fa;
+}
+
+body.theme-green .search-history-list li:hover {
+    background-color: #c8e6c9;
+}
+
+body.theme-black .search-history-list li:hover {
+    background-color: #616161;
+}
+
+body.theme-white .search-history-list li .delete-btn {
+    color: #657786;
+}
+
+body.theme-green .search-history-list li .delete-btn {
+    color: #388e3c;
+}
+
+body.theme-black .search-history-list li .delete-btn {
+    color: #bdbdbd;
+}
+
+body.theme-white .search-history-list li .delete-btn:hover {
+    background-color: #ffebee;
+    color: #e02020;
+}
+
+body.theme-green .search-history-list li .delete-btn:hover {
+    background-color: #ffebee;
+    color: #e02020;
+}
+
+body.theme-black .search-history-list li .delete-btn:hover {
+    background-color: #616161;
+    color: #ff5252;
+}
+
+/* 推文中的图片样式 */
+.tweet-media {
+    margin-top: 10px;
+}
+
+.tweet-media img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+
+.media-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.media-container img {
+    max-width: 500px;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}

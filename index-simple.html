@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姑射山人2011</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles/navigationSidebar.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <img src="sba.jpg" alt="用户头像" class="user-avatar">
+                <div class="user-info">
+                    <h1>姑射山人2011</h1>
+                </div>
+            </div>
+        </header>
+
+        <main id="main-content">
+            <section id="home-section" aria-label="推文列表">
+                <div class="search-bar">
+                    <div class="search-container">
+                        <input type="text" id="search-input" placeholder="搜索推文..." autocomplete="off" aria-label="搜索推文">
+                        <div id="search-history" class="search-history hidden" aria-live="polite">
+                            <ul id="search-history-list" class="search-history-list" role="listbox" aria-label="搜索历史记录">
+                            </ul>
+                        </div>
+                    </div>
+                    <button id="search-btn" aria-label="搜索">搜索</button>
+                    <button id="clear-btn" aria-label="清除搜索">清除</button>
+                    <button id="stats-btn" aria-label="显示统计信息">统计</button>
+                    <button id="advanced-search-btn-main" aria-label="高级搜索">高级搜索</button>
+                    <button id="toggle-tree" class="toggle-btn-inline" aria-expanded="false" aria-label="切换导航树">时光机</button>
+                    
+                    <div id="navigation-tree" class="navigation-tree-inline collapsed" role="navigation" aria-label="时光机">
+                        <div id="tree-content" class="tree-content-inline" aria-hidden="true">
+                            <div class="navigation-section">
+                                <div class="section-header">
+                                    <h4>年月时光机</h4>
+                                </div>
+                                <ul id="year-month-list" class="navigation-list" role="tree">
+                                </ul>
+                            </div>
+                            <div class="navigation-section">
+                                <div class="section-header">
+                                    <h4>渠道时光机</h4>
+                                </div>
+                                <ul id="channel-list" class="navigation-list" role="tree">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="loading-indicator" class="loading-indicator hidden" aria-live="polite">
+                    <div class="spinner" aria-hidden="true"></div>
+                    <span>加载中...</span>
+                </div>
+
+                <div class="tweets-container" id="tweets-container">
+                </div>
+
+                <div class="pagination" role="navigation" aria-label="分页导航">
+                    <span id="page-info" aria-live="polite"></span>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 统计弹窗 -->
+    <div id="stats-modal" class="modal hidden" role="dialog" aria-labelledby="stats-modal-title" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="stats-modal-title">数据统计</h2>
+                <button class="close" aria-label="关闭">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="stats-container">
+                    <table id="combined-stats" aria-label="综合统计数据">
+                        <thead>
+                            <tr>
+                                <th scope="col">年份</th>
+                                <th scope="col">渠道</th>
+                                <th scope="col">条数</th>
+                                <th scope="col">字数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 图片放大模态框 -->
+    <div id="image-modal" class="image-modal" role="dialog" aria-labelledby="image-modal-caption" aria-modal="true">
+        <button class="image-modal-close" aria-label="关闭">&times;</button>
+        <img class="image-modal-content" id="image-modal-img" alt="推文图片放大显示">
+        <div class="image-modal-caption" id="image-modal-caption" role="status"></div>
+    </div>
+
+    <!-- 浮动翻页按钮 -->
+    <div class="floating-buttons floating-buttons-left">
+        <button id="float-prev-btn" class="float-btn" aria-label="上一页">上一页</button>
+    </div>
+    <div class="floating-buttons floating-buttons-right">
+        <button id="float-next-btn" class="float-btn" aria-label="下一页">下一页</button>
+    </div>
+
+    <!-- 高级搜索侧边栏 -->
+    <div id="advanced-search-sidebar" class="advanced-search-sidebar hidden" role="dialog" aria-labelledby="advanced-search-title" aria-modal="true">
+        <div class="advanced-search-content">
+            <div class="advanced-search-header">
+                <h2 id="advanced-search-title">高级搜索</h2>
+                <button id="advanced-search-close" class="close" aria-label="关闭">&times;</button>
+            </div>
+            <div class="advanced-search-body">
+                <div class="advanced-search-input-container">
+                    <input type="text" id="advanced-search-input" placeholder="输入搜索关键词..." aria-label="搜索关键词">
+                    <button id="advanced-search-btn" aria-label="搜索">搜索</button>
+                </div>
+                <div id="advanced-search-results" class="advanced-search-results">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 导航侧边栏 -->
+    <div id="navigation-sidebar" class="hidden">
+        <div class="navigation-sidebar-header">
+            <div class="sidebar-title">📚 导航</div>
+            <button id="navigation-close" aria-label="关闭导航">×</button>
+        </div>
+        <div id="navigation-content">
+        </div>
+    </div>
+
+    <script type="module" src="scripts-simple.js"></script>
+</body>
+</html>

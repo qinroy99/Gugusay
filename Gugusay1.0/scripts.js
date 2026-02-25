@@ -1,106 +1,150 @@
-// 主入口文件 - 精简版
-// 导入所有模块
-import { initializeApp } from './modules/appInit.js';
-import { openImageModal, closeImageModal } from './modules/imageModal.js';
+import { initializeApp } from './modules/appInitSimple.js';
+import { openImageModal } from './modules/imageModal.js';
 import { showCustomContextMenu, hideCustomContextMenu } from './modules/contextMenu.js';
 import { handlePaste } from './modules/mediaHandler.js';
 import { initAdvancedSearch } from './modules/advancedSearch.js';
 import { initNavigationSidebar, openNavigationSidebar } from './modules/navigationSidebar.js';
-import { showSettingsPanel, closeSettingsPanel } from './modules/settings.js';
 
-// 将设置函数暴露到全局，供HTML调用
-window.showSettingsPanel = showSettingsPanel;
-window.closeSettingsPanel = closeSettingsPanel;
+function appendBootstrapDebug(message) {
+    void message;
+}
 
-// DOM加载完成后初始化
-document.addEventListener('DOMContentLoaded', function() {
-    // 初始化应用
-    initializeApp();
-    
-    // 初始化高级搜索功能
-    initAdvancedSearch();
-    
-    // 初始化导航侧边栏
-    initNavigationSidebar();
-    
-    // 修改导航按钮点击事件
+function getRuntimeInfo() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+        gui: params.get('gui') || 'unknown',
+        debug: params.get('debug') || '0',
+        ua: navigator.userAgent || ''
+    };
+}
+
+function appendSelfCheck(name, ok, detail = '') {
+    const status = ok ? 'PASS' : 'FAIL';
+    appendBootstrapDebug(`[${status}] ${name}${detail ? `: ${detail}` : ''}`);
+}
+
+function runDomSelfChecks() {
+    const requiredIds = [
+        'main-content',
+        'tweets-container',
+        'search-input',
+        'search-btn',
+        'toggle-tree',
+        'navigation-sidebar'
+    ];
+    requiredIds.forEach((id) => {
+        const exists = !!document.getElementById(id);
+        appendSelfCheck(`DOM #${id}`, exists);
+    });
+}
+
+async function runApiSelfChecks() {
+    try {
+        const resp = await fetch('/api/total-count?pageSize=6');
+        if (!resp.ok) {
+            appendSelfCheck('API /api/total-count', false, `http ${resp.status}`);
+            return;
+        }
+        const data = await resp.json();
+        appendSelfCheck('API /api/total-count', true, `count=${data.count ?? 'n/a'}`);
+    } catch (error) {
+        appendSelfCheck('API /api/total-count', false, error.message);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    appendBootstrapDebug('DOMContentLoaded');
+    const runtime = getRuntimeInfo();
+    appendBootstrapDebug(`runtime gui=${runtime.gui} debug=${runtime.debug}`);
+    appendBootstrapDebug(`ua=${runtime.ua}`);
+    runDomSelfChecks();
+
+    try {
+        initializeApp();
+        appendBootstrapDebug('initializeApp ok');
+    } catch (error) {
+        console.error('initializeApp failed:', error);
+        appendBootstrapDebug(`initializeApp failed: ${error.message}`);
+    }
+
+    runApiSelfChecks();
+
+    try {
+        initAdvancedSearch();
+        appendBootstrapDebug('initAdvancedSearch ok');
+    } catch (error) {
+        console.error('initAdvancedSearch failed:', error);
+        appendBootstrapDebug(`initAdvancedSearch failed: ${error.message}`);
+    }
+
+    try {
+        initNavigationSidebar();
+        appendBootstrapDebug('initNavigationSidebar ok');
+    } catch (error) {
+        console.error('initNavigationSidebar failed:', error);
+        appendBootstrapDebug(`initNavigationSidebar failed: ${error.message}`);
+    }
+
     const navToggleBtn = document.getElementById('toggle-tree');
-    if (navToggleBtn) {
-        // 移除原有的事件监听器
+    if (navToggleBtn && navToggleBtn.parentNode) {
         const newNavToggleBtn = navToggleBtn.cloneNode(true);
         navToggleBtn.parentNode.replaceChild(newNavToggleBtn, navToggleBtn);
-        
-        // 添加新的事件监听器
-        newNavToggleBtn.addEventListener('click', function() {
+        newNavToggleBtn.addEventListener('click', function () {
             openNavigationSidebar();
         });
     }
-    
-    // 添加粘贴事件监听器
+
     document.addEventListener('paste', handlePaste);
-    
-    // 添加图片放大功能的事件监听器
-    document.getElementById('tweets-container').addEventListener('click', function(e) {
-        // 检查点击的是否是推文图片
-        if (e.target.classList.contains('tweet-image')) {
-            openImageModal(e.target);
-        }
-    });
-    
-    // 添加推文右键菜单事件监听器
-    document.getElementById('tweets-container').addEventListener('contextmenu', function(e) {
-        // 检查右键点击的是否是推文内容
-        const tweetElement = e.target.closest('.tweet');
-        if (tweetElement) {
-            // 创建自定义右键菜单
-            showCustomContextMenu(e, tweetElement);
-            e.preventDefault();
-        }
-    });
-    
-    // 点击其他地方隐藏自定义右键菜单
-    document.addEventListener('click', function() {
+
+    const tweetsContainer = document.getElementById('tweets-container');
+    if (tweetsContainer) {
+        tweetsContainer.addEventListener('click', function (e) {
+            if (e.target.classList.contains('tweet-image')) {
+                openImageModal(e.target);
+            }
+        });
+
+        tweetsContainer.addEventListener('contextmenu', function (e) {
+            const tweetElement = e.target.closest('.tweet');
+            if (tweetElement) {
+                showCustomContextMenu(e, tweetElement);
+                e.preventDefault();
+            }
+        });
+    }
+
+    document.addEventListener('click', function () {
         hideCustomContextMenu();
     });
-    
-    // 添加ESC键隐藏自定义右键菜单
-    document.addEventListener('keydown', function(e) {
+
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             hideCustomContextMenu();
         }
     });
-    
-    // 添加图片模态框关闭事件监听器
+
     const imageModal = document.getElementById('image-modal');
     const imageModalClose = document.querySelector('.image-modal-close');
-    
-    // 点击关闭按钮关闭模态框
-    imageModalClose.addEventListener('click', function() {
-        imageModal.style.display = 'none';
-    });
-    
-    // 点击模态框背景关闭模态框
-    imageModal.addEventListener('click', function(e) {
-        if (e.target === imageModal) {
+    if (imageModal && imageModalClose) {
+        imageModalClose.addEventListener('click', function () {
             imageModal.style.display = 'none';
-        }
-    });
-    
-    // 按ESC键关闭模态框
-    document.addEventListener('keydown', function(e) {
+        });
+
+        imageModal.addEventListener('click', function (e) {
+            if (e.target === imageModal) {
+                imageModal.style.display = 'none';
+            }
+        });
+    }
+
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
-            imageModal.style.display = 'none';
-            
-            // 关闭统计弹窗
+            if (imageModal) {
+                imageModal.style.display = 'none';
+            }
             const statsModal = document.getElementById('stats-modal');
             if (statsModal) {
                 statsModal.classList.add('hidden');
-            }
-            
-            // 关闭编辑弹窗
-            const editModal = document.getElementById('edit-modal');
-            if (editModal) {
-                editModal.classList.add('hidden');
             }
         }
     });

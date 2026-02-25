@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "version": "2026.02.25",
+  "published_at": "2026-02-25T00:00:00Z",
+  "min_app_version": "1.0.0",
+  "notes": "Release notes",
+  "assets": [
+    {
+      "kind": "database",
+      "name": "SR.db",
+      "url": "https://github.com/qinroy99/GuguSay/releases/latest/download/SR.db",
+      "sha256": "replace-with-db-sha256",
+      "signature": ""
+    },
+    {
+      "kind": "media_pack",
+      "name": "media-pack.zip",
+      "url": "https://github.com/qinroy99/GuguSay/releases/latest/download/media-pack.zip",
+      "sha256": "replace-with-zip-sha256",
+      "signature": ""
+    }
+  ]
+}

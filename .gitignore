@@ -1,0 +1,29 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Build artifacts
+build/
+dist/
+*.spec
+
+# Project build outputs
+Gugusay1.0/build/
+Gugusay1.0/dist/
+
+# Runtime/update temp files
+*.tmp
+*.log
+update_staging/
+Gugusay1.0/update_staging/
+
+# Local data and media (publish via Releases, not git history)
+Gugusay1.0/data/SR.db
+Gugusay1.0/data/*.tmp
+Gugusay1.0/media/
+media/
+
+# Portable outputs
+twitter-portable/
+twitter-portable-full/
+twitter-portable-simple/

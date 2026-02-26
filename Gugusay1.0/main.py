@@ -1,6 +1,7 @@
 import atexit
 import os
 import sys
+import ctypes
 from threading import Thread
 
 import webview
@@ -42,7 +43,8 @@ if __name__ == "__main__":
     server_thread.start()
 
     debug_mode = os.getenv("GUGUSAY_DEBUG", "0") == "1"
-    preferred_gui = os.getenv("GUGUSAY_GUI", "edgechromium")
+    # Architecture-level slim build: only support WebView2 (edgechromium).
+    preferred_gui = "edgechromium"
     start_url = f"http://localhost:3000/?gui={preferred_gui}&debug={int(debug_mode)}"
 
     window_ref = webview.create_window(
@@ -58,6 +60,14 @@ if __name__ == "__main__":
     try:
         webview.start(debug=debug_mode, gui=preferred_gui)
     except Exception as exc:
-        print(f"failed to start gui={preferred_gui}: {exc}")
-        webview.start(debug=debug_mode)
+        msg = (
+            f"Failed to start gui={preferred_gui}.\n\n"
+            f"{exc}\n\n"
+            "Please install Microsoft Edge WebView2 Runtime and relaunch."
+        )
+        try:
+            ctypes.windll.user32.MessageBoxW(0, msg, "Gugusay Startup Error", 0x10)
+        except Exception:
+            print(msg)
+        raise
     on_closing()

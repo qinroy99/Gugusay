@@ -15,7 +15,7 @@ from backend.config import APP_ROOT, DATA_DIR, DB_PATH, MEDIA_DIR
 CONFIG_PATH = Path(DATA_DIR) / "update_config.json"
 VERSION_PATH = Path(DATA_DIR) / "version.txt"
 TASK_PATH = Path(DATA_DIR) / "update_install_task.json"
-STAGING_ROOT = Path(APP_ROOT) / "update_staging"
+STAGING_ROOT = Path(DATA_DIR) / "update_staging"
 
 # Replace this with your real Ed25519 verify key (base64) before production use.
 PUBLIC_KEY_B64 = ""

@@ -1,52 +1,68 @@
-# 配置管理模块
-import os
+﻿import shutil
 import sys
+from pathlib import Path
 
-# 获取应用根目录
-def get_app_root():
-    """获取应用根目录"""
-    if getattr(sys, 'frozen', False):
-        # 如果是打包后的exe文件，返回exe所在目录
-        return os.path.dirname(sys.executable)
-    else:
-        # 如果是直接运行Python脚本，返回项目根目录（backend目录的父目录）
-        return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# 获取应用根目录
-APP_ROOT = get_app_root()
+def _project_root() -> Path:
+    return Path(__file__).resolve().parent.parent
 
-# 数据目录
-DATA_DIR = os.path.join(APP_ROOT, 'data')
 
-# 媒体目录
-MEDIA_DIR = os.path.join(APP_ROOT, 'media')
+def _runtime_root() -> Path:
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).resolve().parent
+    return _project_root()
 
-# 数据库路径
-DB_PATH = os.path.join(DATA_DIR, 'SR.db')
 
-# 服务器配置
-SERVER_HOST = 'localhost'
+def _resource_root(runtime_root: Path) -> Path:
+    if getattr(sys, "frozen", False):
+        meipass = getattr(sys, "_MEIPASS", None)
+        if meipass:
+            return Path(meipass).resolve()
+        internal = runtime_root / "_internal"
+        if internal.exists():
+            return internal
+        return runtime_root
+    return _project_root()
+
+
+RUNTIME_ROOT = _runtime_root()
+APP_ROOT = str(_resource_root(RUNTIME_ROOT))
+
+DATA_DIR = str(RUNTIME_ROOT / "data")
+MEDIA_DIR = str(RUNTIME_ROOT / "media")
+DB_PATH = str(Path(DATA_DIR) / "SR.db")
+
+SERVER_HOST = "localhost"
 SERVER_PORT = 3000
 
-# 窗口配置
-WINDOW_TITLE = '姑射山人2011'
+WINDOW_TITLE = "姑射山人2011"
 WINDOW_WIDTH = 1400
 WINDOW_HEIGHT = 900
 WINDOW_MIN_SIZE = (800, 600)
 
-# 分页配置
 DEFAULT_PAGE_SIZE = 6
-
-# 搜索历史限制
 SEARCH_HISTORY_LIMIT = 10
 
-# 确保目录存在
-def ensure_directories():
-    """确保必要的目录存在"""
-    if not os.path.exists(DATA_DIR):
-        os.makedirs(DATA_DIR)
-    if not os.path.exists(MEDIA_DIR):
-        os.makedirs(MEDIA_DIR)
 
-# 初始化目录
+def _bundled_db_candidates() -> list[Path]:
+    app_root = Path(APP_ROOT)
+    return [
+        app_root / "data" / "SR.db",
+        app_root / "backend" / "data" / "SR.db",
+        _project_root() / "data" / "SR.db",
+    ]
+
+
+def ensure_directories() -> None:
+    Path(DATA_DIR).mkdir(parents=True, exist_ok=True)
+    Path(MEDIA_DIR).mkdir(parents=True, exist_ok=True)
+
+    db_file = Path(DB_PATH)
+    if not db_file.exists():
+        for candidate in _bundled_db_candidates():
+            if candidate.exists():
+                shutil.copy2(candidate, db_file)
+                break
+
+
 ensure_directories()
